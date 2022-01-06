@@ -16,7 +16,20 @@ public class Deck {
 	// You will need to initialize both the cardsList and size instance variables
 	// You should go through and make all possible pairs of suits and ranks
 	public Deck(String[] ranks, String[] suits, int[] values) {
-		// YOUR CODE HERE
+		cardsList = new ArrayList<Card>();
+		size = ranks.length * suits.length;
+		/*
+		for (int i = 0; i<size-1; i++){ // go through 3 array and make every single card
+			Card c = new Card(ranks[i], suits[i], values[i]);
+			cardsList.add(c);
+		}
+		*/ // this doesn't work b/c need to loop through the suits and then the ranks as well. need a nested loop.
+		 for (int i =0; i<suits.length; i++){
+			 for (int j = 0; j< ranks.length; j++){
+				 Card c = new Card(ranks[j], suits[i], values[j]); //use j for values because the values tag along with the ranks
+				 cardsList.add(c);
+			 }
+		 }
 		// // Remember, in a constructor you need to first create the ArrayList for the instance variable!
 	}
 	// Deals a card from this deck.
@@ -24,28 +37,41 @@ public class Deck {
 	// Recall that the cards are dealt from top (highest-index) down
 	// Updates the size as well
 	public Card deal() {
-		// YOUR CODE HERE
-        return null;
+		int count = size;
+		if (count>0){
+			size--;
+			return cardsList.get(count-1);
+		}
+		return null;
 	}
 
 	// Determines if this deck is empty (there are no undealt cards).
 	// returns true if this deck is empty, false otherwise.
 	public boolean isEmpty() {
-		// YOUR CODE HERE
+		if (size<=0){
+			return true;
+		}
 		return false;
 	}
 
 	// Returns the size (number of undealt cards) in this deck.
 	public int getSize() {
-		// YOUR CODE HERE
-		return -1;
+		return size;
 	}
 
 	// Shuffles the deck by repeatedly randomly swapping pairs of cards
 	// This method should change the order of the cards in cardsList
 	// Shuffling should also reset the size variable to its original value
 	public void shuffle() {
-		// YOUR CODE HERE
+		int ogSize = cardsList.size();
+		for (int i = 0; i<size-1; i++){
+			Card temp = cardsList.get(i);
+			int random = (int)(Math.random()*ogSize);
+			Card swap = cardsList.get(random);
+			cardsList.set(i, swap);
+			cardsList.set(random, temp);
+
+		}
 	}
 
 	// OPTIONAL: Write code that carries out a "perfect" shuffle
